@@ -1,5 +1,6 @@
 # LUA
 
+message("Lua!!!")
 cmake_minimum_required(VERSION 2.8) 
 project(Lua)
 include(ExternalProject)
@@ -11,14 +12,18 @@ set(
 	lua_util.h
 	)
 
+add_library(lua_util STATIC ${LUA_UTIL})
+
 include_directories(luajit/src)
+set(luajit_src ${CMAKE_CURRENT_LIST_DIR}/luajit)
+message("luajit_src:" ${luajit_src})
 
 ExternalProject_Add(
 	Luajit
 	#URL http://luajit.org/download/LuaJIT-2.0.1.tar.gz
-	#PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/lua
-	SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/luajit
-	#SOURCE_DIR ${CMAKEluajit/src
+	#PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/luajit
+	#SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/luajit
+	SOURCE_DIR ${luajit_src}
 	UPDATE_COMMAND ""
 	CONFIGURE_COMMAND ""
 	BUILD_COMMAND ${MAKE} 
@@ -30,9 +35,14 @@ ExternalProject_Add(
 
 #ExternalProject_Get_Property(luajit install_dir)
 add_library(libluajit STATIC IMPORTED)
-set(libluajit_path ${CMAKE_CURRENT_SOURCE_DIR}/lua/src/Luajit/src)
-include_directories(${libluajit_path})
-message("Libluajit: " ${libluajit_path})
-set_target_properties(libluajit PROPERTIES IMPORTED_LOCATION ${libluajit_path}/libluajit.a)
+#set(libluajit_path ${CMAKE_CURRENT_SOURCE_DIR}/src)
+#include_directories(${libluajit_path})
+#message("Libluajit: " ${libluajit_path})
+
+include_directories(${luajit_src}/src)
+
+#set_target_properties(libluajit PROPERTIES IMPORTED_LOCATION ${libluajit_path}/libluajit.a)
+set_target_properties(libluajit PROPERTIES IMPORTED_LOCATION ${luajit_src}/src/libluajit.a)
 add_dependencies(libluajit Luajit)
+add_dependencies(lua_util Luajit)
 
