@@ -1,5 +1,18 @@
 # LUA
 
+GET_PROPERTY(_LUA_LIB GLOBAL PROPERTY UMBER_LIB)
+
+if( NOT DEFINED _LUA_LIB)
+	SET_PROPERTY(GLOBAL PROPERTY UMBER_LIB "not set")
+	set(_LUA_LIB "not set")
+endif() 
+
+
+if( NOT ${_LUA_LIB} STREQUAL "set")
+	SET_PROPERTY(GLOBAL PROPERTY UMBER_LIB "set")
+	add_library(umber STATIC ${SRC_UMBER})
+endif()
+
 message("Lua!!!")
 cmake_minimum_required(VERSION 2.8) 
 project(Lua)
