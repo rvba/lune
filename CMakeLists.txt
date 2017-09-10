@@ -10,8 +10,6 @@ endif()
 
 if( NOT ${_LUA_LIB} STREQUAL "set")
 	SET_PROPERTY(GLOBAL PROPERTY UMBER_LIB "set")
-	add_library(umber STATIC ${SRC_UMBER})
-endif()
 
 message("Lua!!!")
 cmake_minimum_required(VERSION 2.8) 
@@ -58,4 +56,6 @@ include_directories(${luajit_src}/src)
 set_target_properties(libluajit PROPERTIES IMPORTED_LOCATION ${luajit_src}/src/libluajit.a)
 add_dependencies(libluajit Luajit)
 add_dependencies(lua_util Luajit)
+
+endif()
 
