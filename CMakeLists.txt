@@ -27,6 +27,9 @@ add_library(lua_util STATIC ${LUA_UTIL})
 include_directories(luajit/src)
 set(luajit_src ${CMAKE_CURRENT_LIST_DIR}/luajit)
 
+if(OPT_LUAJIT_PACKAGE)
+else()
+
 ExternalProject_Add(
 	Luajit
 	SOURCE_DIR ${luajit_src}
@@ -45,6 +48,7 @@ include_directories(${luajit_src}/src)
 set_target_properties(libluajit PROPERTIES IMPORTED_LOCATION ${luajit_src}/src/libluajit.a)
 add_dependencies(libluajit Luajit)
 add_dependencies(lua_util Luajit)
+endif()
 
 endif()
 
